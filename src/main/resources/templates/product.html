@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>جزئیات کتاب</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Vazir', sans-serif;
+        }
+        .book-image {
+            width: 100%;
+            border-radius: 10px;
+            height: 400px;
+        }
+        .price {
+            font-size: 24px;
+            color: #28a745;
+            font-weight: bold;
+        }
+        .btn-buy {
+            width: 100%;
+            font-size: 18px;
+            margin-top: 20px;
+        }
+        .comment-box {
+            margin-top: 50px;
+        }
+        .comment {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-white px-4">
+    <a class="navbar-brand fw-bold" href="#">📚 فروشگاه کتاب</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainMenu">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="mainMenu">
+        <ul class="navbar-nav ms-auto">
+            <li class="nav-item"><a class="nav-link" href="http://localhost:8080">خانه</a></li>
+            <li class="nav-item"><a class="nav-link" href="http://localhost:8080/allProduct">محصولات</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">ورود</a></li>
+            <li class="nav-item"><a class="nav-link" href="#">عضویت</a></li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container py-5">
+    <div class="row">
+        <div class="col-md-5">
+            <img id="image" src="https://via.placeholder.com/400x500" alt="Book Cover" class="book-image">
+        </div>
+        <div class="col-md-7">
+            <h2 class="mb-4" id="title">عنوان کتاب نمونه</h2>
+            <p class="text-muted" id="publishDate">تاریخ انتشار: ۲۰۲۴/۰۱/۰۱</p>
+            <p class="lead" id="description">
+                این کتاب درباره‌ی ماجراهای جذاب و آموزنده‌ای است که ذهن شما را به چالش می‌کشد و به شما دید تازه‌ای می‌دهد. 📚
+            </p>
+            <div class="price mb-3" id="price">
+                ۱۲۰٬۰۰۰ تومان
+            </div>
+            <button class="btn btn-success btn-buy">🛒 خرید کتاب</button>
+        </div>
+    </div>
+
+    <!-- Comments Section -->
+    <div class="comment-box">
+        <h4 class="mb-4">💬 نظرات کاربران</h4>
+
+        <!-- Comment -->
+        <div class="comment">
+            <strong>کاربر ۱:</strong>
+            <p>کتاب فوق‌العاده‌ای بود، پیشنهاد می‌کنم حتماً بخونید.</p>
+        </div>
+
+        <div class="comment">
+            <strong>کاربر ۲:</strong>
+            <p>محتوای جذاب و طراحی خوبی داره.</p>
+        </div>
+
+        <!-- Add Comment Form -->
+        <div class="card mt-5">
+            <div class="card-body">
+                <h5 class="card-title">ثبت نظر جدید</h5>
+                <form>
+                    <div class="mb-3">
+                        <label for="comment" class="form-label">نظر شما:</label>
+                        <textarea class="form-control" id="comment" rows="3" placeholder="نظر خود را بنویسید..."></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">ثبت نظر</button>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+<!-- Footer -->
+<footer class="bg-white text-center p-3 border-top mt-5">
+    <p class="mb-0">© 2025 فروشگاه کتاب | طراحی شده با ❤️ توسط دانشجویان ایرانیان سایبر</p>
+</footer>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    let productId = urlParams.get("id")
+
+
+    fetch("http://localhost:8080/book/findById?id="+productId)
+        .then(res=>res.json())
+        .then(res=>{
+            console.log(res);
+            document.getElementById("title").innerText = res.title;
+            document.getElementById("description").innerText = res.description;
+            document.getElementById("price").innerText = res.price+"تومان ";
+            document.getElementById("publishDate").innerText = "تاریخ انتشار: " + res.publishDate;
+            document.getElementById("image").src= res.image;
+        });
+
+
+</script>
+</body>
+</html>

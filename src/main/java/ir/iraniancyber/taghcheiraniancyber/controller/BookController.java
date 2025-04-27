@@ -32,5 +32,11 @@ public class BookController {
         return bookService.top10Book();
     }
 
+    @GetMapping("/findById")
+    public BookDto findById(@RequestParam int id) {
+        Book book = bookService.getBook(id);
+        return BookDto.convertBookToBookDto(book);
+    }
+
 
 }

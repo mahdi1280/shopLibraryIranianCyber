@@ -10,4 +10,14 @@ public class PageController {
     public String index() {
         return "index";
     }
+
+    @GetMapping("/allProduct")
+    public String allProduct() {
+        return "allProducts";
+    }
+
+    @GetMapping("/product")
+    public String product() {
+        return "product";
+    }
 }
