@@ -22,7 +22,7 @@
 
 <div class="product-form">
     <h4 class="text-center mb-4">افزودن / ویرایش محصول</h4>
-    <form method="post" action="/admin/products/save" enctype="multipart/form-data">
+    <div>
         <input type="hidden" name="id" value="{{product.id}}" /> <!-- برای حالت ویرایش -->
 
         <div class="mb-3">
@@ -42,14 +42,39 @@
 
         <div class="mb-3">
             <label for="image" class="form-label">تصویر کتاب</label>
-            <input type="number" class="form-control" id="image" name="image" required value="">
+            <input type="text" class="form-control" id="image" name="image" required value="">
         </div>
 
         <div class="d-grid">
-            <button type="submit" class="btn btn-primary">ذخیره محصول</button>
+            <button onclick="saveProduct()" type="submit" class="btn btn-primary">ذخیره محصول</button>
         </div>
-    </form>
+    </div>
 </div>
 
+<script>
+    function saveProduct() {
+        let title = document.getElementById("title").value;
+        let description = document.getElementById("description").value;
+        let price = document.getElementById("price").value;
+        let image = document.getElementById("image").value;
+
+        fetch("http://localhost:8080/book/save", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                title: title,
+                description: description,
+                price: price,
+                image: image
+            })
+        })
+            .then(response => {
+                alert("success");
+                location.replace("http://localhost:8080/productList")
+            })
+    }
+</script>
 </body>
 </html>

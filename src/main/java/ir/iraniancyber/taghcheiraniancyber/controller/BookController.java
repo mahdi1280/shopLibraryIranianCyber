@@ -38,5 +38,10 @@ public class BookController {
         return BookDto.convertBookToBookDto(book);
     }
 
+    @GetMapping("/deleteBook")
+    public void deleteBook(@RequestParam int id) {
+        bookService.deleteBook(id);
+    }
+
 
 }

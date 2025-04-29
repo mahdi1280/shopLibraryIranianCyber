@@ -20,4 +20,24 @@ public class PageController {
     public String product() {
         return "product";
     }
+
+    @GetMapping("/productList")
+    public String productList() {
+        return "productList";
+    }
+
+    @GetMapping("/login")
+    public String login() {
+        return "login";
+    }
+
+    @GetMapping("/register")
+    public String register() {
+        return "register";
+    }
+
+    @GetMapping("/saveProduct")
+    public String saveProduct() {
+        return "productSave";
+    }
 }

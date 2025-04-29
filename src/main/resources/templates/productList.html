@@ -28,7 +28,7 @@
     <h2 class="mb-4 text-center">مدیریت محصولات</h2>
 
     <div class="text-end">
-        <button class="btn btn-success btn-add">➕ افزودن محصول جدید</button>
+        <a class="btn btn-success btn-add" href="http://localhost:8080/saveProduct">➕ افزودن محصول جدید</a>
     </div>
 
     <table class="table table-bordered table-striped">
@@ -42,22 +42,66 @@
             <th>عملیات</th>
         </tr>
         </thead>
-        <tbody>
-        <tr>
-            <td>۱</td>
-            <td>کتاب جاوا مقدماتی</td>
-            <td>۱۲۰٬۰۰۰ تومان</td>
-            <td>مناسب برای مبتدیان</td>
-            <td><img src="https://via.placeholder.com/60" alt="کتاب" class="img-thumbnail"></td>
-            <td>
-                <button class="btn btn-primary btn-sm">✏️ ویرایش</button>
-                <button class="btn btn-danger btn-sm">🗑️ حذف</button>
-            </td>
-        </tr>
-        <!-- ردیف‌های دیگر به همین شکل -->
+        <tbody id="tbody">
         </tbody>
     </table>
 </div>
 
+<script>
+
+    function convertToCard(book) {
+        let tr = document.createElement("tr");
+        let td1 = document.createElement("td");
+        td1.innerText = book.id;
+        let td2 = document.createElement("td");
+        td2.innerText = book.title;
+        let td3 = document.createElement("td");
+        td3.innerText = book.price;
+        let td4 = document.createElement("td");
+        td4.innerText = book.description;
+        let td5 = document.createElement("td");
+        let image = document.createElement("img");
+        image.src = book.image;
+        image.className = "img-thumbnail";
+        td5.appendChild(image);
+        let td6 = document.createElement("td");
+        let btn1= document.createElement("button");
+        btn1.innerText = "✏️ ویرایش";
+        btn1.className="btn btn-primary btn-sm";
+
+        let btn2 = document.createElement("button");
+        btn2.innerText= "🗑️ حذف";
+        btn2.className="btn btn-danger btn-sm";
+        btn2.onclick = ()=>deleteBook(book.id);
+        td6.appendChild(btn1);
+        td6.appendChild(btn2);
+
+        tr.appendChild(td1);
+        tr.appendChild(td2);
+        tr.appendChild(td3);
+        tr.appendChild(td4);
+        tr.appendChild(td5);
+        tr.appendChild(td6);
+        document.getElementById("tbody").appendChild(tr);
+    }
+
+    fetch("http://localhost:8080/book/list")
+        .then(res => res.json())
+        .then(res => {
+            console.log(res);
+            for (let i = 0; i < res.length; i++) {
+                convertToCard(res[i]);
+            }
+        });
+
+
+    function deleteBook(id){
+        fetch("http://localhost:8080/book/deleteBook?id="+id)
+            .then(res => {
+                alert("success");
+                location.reload();
+            });
+    }
+</script>
 </body>
 </html>
