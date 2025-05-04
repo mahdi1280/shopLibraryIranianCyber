@@ -1,11 +1,13 @@
 package ir.iraniancyber.taghcheiraniancyber.controller;
 
+import ir.iraniancyber.taghcheiraniancyber.dto.MessageDto;
 import ir.iraniancyber.taghcheiraniancyber.dto.UserSaveDto;
 import ir.iraniancyber.taghcheiraniancyber.model.User;
 import ir.iraniancyber.taghcheiraniancyber.service.UserService;
 import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,6 +16,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/user")
+@CrossOrigin(allowedHeaders = "*" , origins = "*")
 public class UserController {
 
     @Autowired
@@ -25,14 +28,16 @@ public class UserController {
     }
 
     @PostMapping("/save")
-    public ResponseEntity<String> register(@RequestBody UserSaveDto userSaveDto) {
+    public ResponseEntity<MessageDto> register(@RequestBody UserSaveDto userSaveDto) {
         if(userService.existsByUsername(userSaveDto.getUsername())) {
             return ResponseEntity.status(HttpStatus.CONFLICT)
-                    .body("Username already exists");
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body(new MessageDto("Username already exists"));
         } else {
             userService.save(userSaveDto.convertUserDtoToUser());
             return ResponseEntity.status(HttpStatus.OK)
-                    .body("User registered successfully");
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body(new MessageDto("User registered successfully"));
         }
     }
 

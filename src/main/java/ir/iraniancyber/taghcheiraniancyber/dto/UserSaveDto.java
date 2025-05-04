@@ -3,7 +3,9 @@ package ir.iraniancyber.taghcheiraniancyber.dto;
 import ir.iraniancyber.taghcheiraniancyber.model.Role;
 import ir.iraniancyber.taghcheiraniancyber.model.User;
 
-public class UserSaveDto {
+import java.io.Serializable;
+
+public class UserSaveDto implements Serializable {
 
     private String username;
     private String name;
